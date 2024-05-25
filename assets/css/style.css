@@ -24,6 +24,7 @@ body {
     align-items: center;
     flex-direction: column;
     gap: var(--gap);
+    padding:var(--gap);
 }
 
 h1 {
@@ -106,7 +107,7 @@ input{
 }
 
 button{
-    padding:16px 32px;
+    padding:16px 24px;
     border-radius:8px;
     background-color:#c00;
     color:#fff;
@@ -119,8 +120,23 @@ button{
     justify-content: center;
     cursor:pointer
 }
+
+button.secondary{
+    background-color: #c000;
+    border:1px solid #c00;
+    color:#c00;
+}
 button i{
     font-size: 18px;
+}
+
+button:hover{
+    background-color: #f00;
+    color:#fff;
+}
+
+button.copy.active{
+    background-color: #090;
 }
 
 .result{
@@ -131,6 +147,7 @@ button i{
     width: 100%;
     max-width: 720px;
     text-align: center;
+    display: none;
 }
 
 .result h4{
@@ -143,3 +160,18 @@ button i{
     justify-content: center;
     gap:var(--gap);
 }
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #c00; /* Blue */
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    animation: spin 1s linear infinite;
+    display: none;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
