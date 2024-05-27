@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 
 use OSJ\Service\LinkService;
 
@@ -28,7 +30,7 @@ foreach ($osJson as $post) {
 
 $messages[0] .= "\u{270A}\u{1F3FE} Acompanhe nossas publicações nas redes: \u{270A}\u{1F3FE}\u{1F6A9}<br/><br/>
 \u{1F449}\u{1F3FE} Site<br/>
-http://www.opiniaosocialista.com.br
+https://www.opiniaosocialista.com.br
 <br/><br/>
 \u{1F449}\u{1F3FE} Whatsapp<br/>
 https://os.jor.br/whatsapp
@@ -69,7 +71,7 @@ $lastEd = file_get_contents($lastEd);
 $lastEd = json_decode($lastEd, TRUE);
 $lastEd = $lastEd[0];
 
-$tagId = 'http://www.opiniaosocialista.com.br/wp-json/wp/v2/tags?search=os' . $lastEd;
+$tagId = 'https://www.opiniaosocialista.com.br/wp-json/wp/v2/tags?search=os' . $lastEd;
 $tagId = file_get_contents($tagId);
 $tagId = json_decode($tagId, TRUE);
 $tagId = $tagId[0]['id'];
@@ -78,7 +80,7 @@ $posts = "https://www.opiniaosocialista.com.br/wp-json/wp/v2/posts?tags=" . $tag
 $posts = file_get_contents($posts);
 $posts = json_decode($posts, TRUE);
 
-$messages[1] = "\u{1F4F0} <b>SAIU O OPINIÃO SOCIALISTA Nº" . $lastEd . "| </b><br/><br/>";
+$messages[1] = "\u{1F4F0} <b>SAIU O OPINIÃO SOCIALISTA Nº" . $lastEd . "</b><br/><br/>";
 
 foreach ($posts as $post) {
     if (in_array("Editorial", $post['categories_names'])) {
@@ -96,7 +98,27 @@ foreach ($posts as $post) {
     }
 }
 
-$messages[1] .= "---------------<br/>\u{1F4F0} Adquira com qualquer militante do PSTU ou leia em nosso Portal<br/>www.opiniaosocialista.com.br";
+$messages[1] .= "---------------<br/>\u{1F4F0} Adquira com qualquer militante do PSTU ou leia em nosso Portal<br/>www.opiniaosocialista.com.br/edicao/".$lastEd;
+
+/* =================================
+
+    Colunas
+
+================================= */
+
+$colunas = "https://www.opiniaosocialista.com.br/wp-json/wp/v2/posts?categories=1602&per_page=5";
+$colunas = file_get_contents($colunas);
+$colunas = json_decode($colunas, TRUE);
+
+$messages[2] = "\u{1F4CC} <b>Confira as últimas colunas do Opinião Socialista</b><br/><br/>";
+
+foreach ($colunas as $post) {
+    if (!in_array("Editorial", $post['categories_names'])) {
+        $url = $linkService->registerLink($post['link'] . '?utm_source=whatsapp');
+        $messages[2] .= "\u{270F} <b>" . explode(",", $post['author_name'])[0] . "</b><br/>" . $post['title']['rendered'] . '<br/>https://os.jor.br/' . $url . '<br/><br/>';
+    }
+}
+$messages[2] .= "---------------<br/><br/>Leia mais no nosso site<br/>www.opiniaosocialista.com.br";
 
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode($messages);
