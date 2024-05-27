@@ -2,7 +2,7 @@
 
 use OSJ\Service\LinkService;
 
-require('autoload.php');
+require($_SERVER['DOCUMENT_ROOT'].'/autoload.php');
 $linkService = new LinkService;
 
 $messages = [];
