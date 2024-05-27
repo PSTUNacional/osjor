@@ -18,7 +18,8 @@
             <button class="createNew secondary"><i class="fa fa-plus"></i> Criar novo</button></div>
     </div>
     <form>
-        <input type="text" name="url" id="link"/>
+        <input type="text"  name="url" id="link" placeholder="Insira um link"/>
+        <p class="alert" style="display: none;"><i class="fa fa-exclamation-circle"></i> É preciso inserir um link válido.</p>
         <button class="submit"><i class="fa fa-link"></i> Encurtar</button>
     </form>
     <div class="loader"></div> 
